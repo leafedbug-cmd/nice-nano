@@ -3,28 +3,54 @@
  * ============================================================
  * PlatformIO / Arduino build for nice!nano (nRF52840)
  *
- * Wiring:
- *   nRF24L01    nice!nano pad    nRF52840 GPIO   Arduino pin
- *   VCC    -->  VCC (3.3V)
- *   GND    -->  GND
- *   CE     -->  024              P0.24           24
- *   CSN    -->  100              P1.00           32
- *   SCK    -->  SCK (113)        P1.13           45
- *   MOSI   -->  010              P0.10           10
- *   MISO   -->  111              P1.11           43
- *   IRQ    --> (not connected)
+ * Board: nice_nano (1:1 GPIO mapping — Arduino pin N = nRF52840 GPIO N)
+ *   P0.x = x, P1.x = 32+x
+ *
+ * ===================== WIRING SCHEMATIC =====================
+ *
+ *   E01-ML01DP5 (back side facing you, SMA antenna at top)
+ *
+ *        +-----------------------+
+ *        |  [SMA antenna conn]   |
+ *        |                       |
+ *        |   EBYTE E01-ML01DP5   |
+ *        |                       |
+ *        |  VCC            GND   |
+ *        |   o              o    |
+ *        |  CSN            CE    |
+ *        |   o              o    |
+ *        | MOSI            SCK   |
+ *        |   o              o    |
+ *        |  IRQ           MISO   |
+ *        |   o              o    |
+ *        +-----------------------+
+ *            |              |
+ *            |              |
+ *   Wires:   |              |
+ *            v              v
+ *
+ *        E01-ML01DP5          nice!nano
+ *        ----------           ---------
+ *        VCC  (top-left)  --> VCC (3.3V)
+ *        GND  (top-right) --> GND
+ *        CSN  (2nd-left)  --> pad 100
+ *        CE   (2nd-right) --> pad 024
+ *        MOSI (3rd-left)  --> pad 106
+ *        SCK  (3rd-right) --> pad 113
+ *        IRQ  (4th-left)  --> NOT CONNECTED
+ *        MISO (4th-right) --> pad 111
  */
 
 #include <Arduino.h>
 #include <SPI.h>
 #include <RF24.h>
 
-// nRF52840 GPIO numbers: P0.x = x, P1.x = 32 + x
+// GPIO numbers = Arduino pin numbers on nice_nano board (1:1 mapping)
 #define CE_PIN   24   // P0.24 — nice!nano pad 024
 #define CSN_PIN  32   // P1.00 — nice!nano pad 100
-#define MOSI_PIN 10   // P0.10 — nice!nano pad 010
+#define MOSI_PIN 38   // P1.06 — nice!nano pad 106
 #define MISO_PIN 43   // P1.11 — nice!nano pad 111
-#define SCK_PIN  45   // P1.13 — nice!nano pad SCK / 113
+#define SCK_PIN  45   // P1.13 — nice!nano pad 113
 
 RF24 radio(CE_PIN, CSN_PIN);
 
