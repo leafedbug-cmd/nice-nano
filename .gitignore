@@ -1,3 +1,9 @@
+# PlatformIO
+.pio/
+.clang-format
+.clang-tidy
+.clang.tidy
+
 # Build outputs
 build/
 dist/
