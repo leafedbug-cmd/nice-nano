@@ -1,0 +1,16 @@
+# Build outputs
+build/
+dist/
+out/
+
+# Firmware artifacts
+*.bin
+*.hex
+*.uf2
+*.zip
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
