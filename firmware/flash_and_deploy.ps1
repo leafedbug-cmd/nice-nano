@@ -1,10 +1,42 @@
 param(
-    [string]$WorkspaceRoot = "C:/Users/austin/Documents/GitHub/nice-nano"
+    [string]$WorkspaceRoot = "C:/Users/austin/Documents/GitHub/nice-nano",
+    # Use -Mode platformio  to build & upload via PlatformIO (adafruit-nrfutil DFU).
+    # Use -Mode circuitpython (default) to flash the UF2 + deploy Python files.
+    [ValidateSet("circuitpython", "platformio")]
+    [string]$Mode = "circuitpython"
 )
 
 $ErrorActionPreference = "Stop"
 
 $firmwareDir = Join-Path $WorkspaceRoot "firmware"
+
+# ── PlatformIO mode ──────────────────────────────────────────────────────────
+if ($Mode -eq "platformio") {
+    Write-Host "=== PlatformIO build & upload ==="
+    Write-Host "Prerequisites: 'pio' on PATH and 'adafruit-nrfutil' installed."
+    Write-Host "Double-tap RST to enter DFU bootloader before running this."
+    Write-Host ""
+
+    Push-Location $firmwareDir
+    try {
+        Write-Host "Building..."
+        & pio run
+        if ($LASTEXITCODE -ne 0) { throw "pio build failed (exit $LASTEXITCODE)" }
+
+        Write-Host ""
+        Write-Host "Uploading via nrfutil..."
+        & pio run --target upload
+        if ($LASTEXITCODE -ne 0) { throw "pio upload failed (exit $LASTEXITCODE)" }
+
+        Write-Host ""
+        Write-Host "Upload complete. Open serial monitor with:  pio device monitor"
+    } finally {
+        Pop-Location
+    }
+    return
+}
+
+# ── CircuitPython mode (original behaviour) ──────────────────────────────────
 $uf2 = Join-Path $firmwareDir "adafruit-circuitpython-nice_nano-en_US-10.1.4.uf2"
 $code = Join-Path $firmwareDir "code.py"
 $libSrc = Join-Path $firmwareDir "circuitpython_nrf24l01"
