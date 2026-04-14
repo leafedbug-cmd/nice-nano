@@ -132,7 +132,7 @@ static void internal_radio_init() {
     NRF_TIMER1->MODE = 0;          // Timer mode
     NRF_TIMER1->BITMODE = 0;       // 16-bit
     NRF_TIMER1->PRESCALER = 4;     // 16 MHz / 16 = 1 MHz (1µs ticks)
-    NRF_TIMER1->CC[0] = 200;       // Fire every 200µs
+    NRF_TIMER1->CC[0] = 500;       // Fire every 500µs — longer dwell = more range
     NRF_TIMER1->SHORTS = 1;        // COMPARE0 → CLEAR (auto-reload)
     NRF_TIMER1->INTENSET = (1 << 16);  // COMPARE[0] interrupt
     NVIC_SetPriority(TIMER1_IRQn, 3);
@@ -182,13 +182,13 @@ void setup() {
     radio.setCRCLength(RF24_CRC_DISABLED);
     radio.setAutoAck(false);
     radio.setRetries(0, 0);
-    radio.setPayloadSize(1);   // 1 byte = ~28µs airtime = fastest possible hops
+    radio.setPayloadSize(32);  // 32 bytes = ~152µs airtime = max energy per hop
 
     const uint8_t addr[5] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA};
     radio.openWritingPipe(addr);
     radio.stopListening();
 
-    Serial.println("  [EXT] +20dBm | 2Mbps | 1-byte payload | CRC off");
+    Serial.println("  [EXT] +20dBm | 2Mbps | 32-byte payload | CRC off");
 
     // ---- Internal nRF52840 RADIO ----
     internal_radio_init();
@@ -202,8 +202,8 @@ void setup() {
     Serial.println("========================================");
     Serial.println("  JAMMING ACTIVE — 2.400-2.480 GHz");
     if (internal_radio_ok) {
-        Serial.println("  [EXT] TX flood sweep  0->80 (~200/s)");
-        Serial.println("  [INT] Carrier sweep  80->0  (~60/s)");
+        Serial.println("  [EXT] TX flood sweep  0->80 (3x32B/ch)");
+        Serial.println("  [INT] Carrier sweep  80->0  (500us dwell)");
     } else {
         Serial.println("  [EXT] TX flood sweep 0->80");
     }
