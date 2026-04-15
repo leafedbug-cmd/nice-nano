@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:fcc.report)",
+      "WebFetch(domain:lcsc.com)",
+      "WebFetch(domain:www.cdebyte.com)",
+      "WebFetch(domain:manualzz.com)",
+      "WebFetch(domain:www.manualslib.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(rm -rf firmware/circuitpython_nrf24l01 firmware/code.py firmware/diag.py firmware/flash_and_deploy.ps1 firmware/platformio.ini firmware/_bus_tmp firmware/.gitkeep notes boards/nice_nano.json)",
+      "Bash(rmdir boards:*)"
+    ]
+  }
+}
