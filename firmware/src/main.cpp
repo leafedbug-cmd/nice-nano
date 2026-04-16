@@ -17,16 +17,42 @@
  *
  * ===================== WIRING SCHEMATIC =====================
  *
- *   E01-ML01DP5 (back side facing you, SMA antenna at top)
+ *   nice!nano v2 (component side facing you, USB-C at top)
+ *   Pad naming: P0.xx = 0xx, P1.xx = 1xx
  *
- *        +-----------------------+
- *        |  [SMA antenna conn]   |
- *        |                       |
- *        |   EBYTE E01-ML01DP5   |
- *        |                       |
- *        |  VCC            GND   |
- *        |   o              o    |
- *        |  CSN            CE    |
+ *                  +----------+
+ *                  |  USB-C   |
+ *            +-----+----------+-----+
+ *            |                      |
+ *            |  B+              B-  |
+ *            |   o              o   |
+ *            |                      |
+ *      006   |   o              o   |  RAW
+ *      008   |   o              o   |  GND  ──┐
+ *      GND   |   o              o   |  RST    │
+ *      GND   |   o              o   |  VCC ─┐ │
+ *      017   |   o              o   |  031  │ │
+ *      020   |   o              o   |  029  │ │
+ *      022   |   o              o   |  002  │ │
+ *  CE> 024   |   o              o   |  115  │ │
+ * CSN> 100   |   o              o   |  113  │ │ <SCK
+ *      011   |   o              o   |  111  │ │ <MISO
+ *      104   |   o              o   |  010  │ │
+ *MOSI> 106   |   o              o   |  009  │ │
+ *            |                      |       │ │
+ *            +----------------------+       │ │
+ *                                           │ │
+ *   E01-ML01DP5 (back side facing you,      │ │
+ *   SMA antenna at top)                     │ │
+ *                                           │ │
+ *        +-----------------------+          │ │
+ *        |  [SMA antenna conn]   |          │ │
+ *        |                       |          │ │
+ *        |   EBYTE E01-ML01DP5   |          │ │
+ *        |                       |          │ │
+ *        |  VCC            GND   |          │ │
+ *        |   o              o    |  VCC <───┘ │
+ *        |  CSN            CE    |  GND <─────┘
  *        |   o              o    |
  *        | MOSI            SCK   |
  *        |   o              o    |
@@ -34,8 +60,10 @@
  *        |   o              o    |
  *        +-----------------------+
  *
+ *        CONNECTIONS
+ *        ──────────────────────────────────
  *        E01-ML01DP5          nice!nano
- *        ----------           ---------
+ *        ──────────────────────────────────
  *        VCC  (top-left)  --> VCC (3.3V)
  *        GND  (top-right) --> GND
  *        CSN  (2nd-left)  --> pad 100
@@ -44,6 +72,7 @@
  *        SCK  (3rd-right) --> pad 113
  *        IRQ  (4th-left)  --> NOT CONNECTED
  *        MISO (4th-right) --> pad 111
+ *        ──────────────────────────────────
  */
 
 #include <Arduino.h>
