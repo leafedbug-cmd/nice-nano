@@ -50,13 +50,13 @@
  *        |                       |          │ │
  *        |   EBYTE E01-ML01DP5   |          │ │
  *        |                       |          │ │
- *        |  VCC            GND   |          │ │
- *        |   o              o    |  VCC <───┘ │
- *        |  CSN            CE    |  GND <─────┘
+ *        |  VCC  red          GND black  |          │ │
+ *        |   o              o    |  
+ *        |  CSN  orange       CE white   
  *        |   o              o    |
- *        | MOSI            SCK   |
+ *        | MOSI   yellow      SCK grey  |
  *        |   o              o    |
- *        |  IRQ           MISO   |
+ *        |  IRQ    green       MISO purple  |
  *        |   o              o    |
  *        +-----------------------+
  *
