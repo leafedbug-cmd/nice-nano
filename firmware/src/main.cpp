@@ -179,6 +179,10 @@ void setup() {
     Serial.begin(115200);
     while (!Serial && millis() < 5000);
 
+    // LED off until nRF24 is confirmed working
+    pinMode(PIN_LED1, OUTPUT);
+    digitalWrite(PIN_LED1, LOW);
+
     Serial.println();
     Serial.println("=== DUAL-RADIO JAMMER — MAX POWER ===");
     Serial.println();
@@ -195,6 +199,7 @@ void setup() {
             Serial.print("  [EXT] nRF24L01+PA+LNA OK (attempt ");
             Serial.print(attempt);
             Serial.println(")");
+            digitalWrite(PIN_LED1, HIGH);  // LED on = nRF24 alive
             break;
         }
         Serial.print("  [EXT] attempt ");
